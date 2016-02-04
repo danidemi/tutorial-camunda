@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="pdta-diabete" name="PDTA Diabete" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Arruolamento Del Paziente">
+      <bpmn:documentation><![CDATA[pp
+]]></bpmn:documentation>
+      <bpmn:outgoing>SequenceFlow_0xra8es</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0xra8es" sourceRef="StartEvent_1" targetRef="visita-specialistica" />
+    <bpmn:endEvent id="EndEvent_073zhq4">
+      <bpmn:incoming>SequenceFlow_1xxur4m</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1xxur4m" sourceRef="visita-specialistica" targetRef="EndEvent_073zhq4" />
+    <bpmn:userTask id="visita-specialistica" name="Visita Specialistica" camunda:assignee="Dott Rossi">
+      <bpmn:incoming>SequenceFlow_0xra8es</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1xxur4m</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="pdta-diabete">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="295" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="268" y="308" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xra8es_di" bpmnElement="SequenceFlow_0xra8es">
+        <di:waypoint xsi:type="dc:Point" x="331" y="290" />
+        <di:waypoint xsi:type="dc:Point" x="417" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="329" y="280" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_073zhq4_di" bpmnElement="EndEvent_073zhq4">
+        <dc:Bounds x="581" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="554" y="308" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1xxur4m_di" bpmnElement="SequenceFlow_1xxur4m">
+        <di:waypoint xsi:type="dc:Point" x="517" y="290" />
+        <di:waypoint xsi:type="dc:Point" x="581" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="504" y="280" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0o2fox1_di" bpmnElement="visita-specialistica">
+        <dc:Bounds x="417" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
