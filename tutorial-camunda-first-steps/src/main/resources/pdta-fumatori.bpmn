@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
   <bpmn:process id="pdta-fumatori" name="PDTA Fumatori" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1">
+    <bpmn:startEvent id="StartEvent_1" camunda:formKey="embedded:app:forms/arruolamento-paziente.html">
       <bpmn:outgoing>SequenceFlow_1bz04r0</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1ps37o0" name="&#60;40 anni">
@@ -15,7 +15,7 @@
       <bpmn:incoming>SequenceFlow_01jdqh5</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="age_lt_40" sourceRef="ExclusiveGateway_1ps37o0" targetRef="EndEvent_0zeuu2q">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true==false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${pazienteEta<40}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0l3jy05" name="sintomatico ?">
       <bpmn:incoming>age_ge_40</bpmn:incoming>
@@ -23,13 +23,15 @@
       <bpmn:outgoing>SequenceFlow_0wwbnj2</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="age_ge_40" sourceRef="ExclusiveGateway_1ps37o0" targetRef="ExclusiveGateway_0l3jy05">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true==true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${pazienteEta>=40}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_01jdqh5" sourceRef="ExclusiveGateway_0l3jy05" targetRef="EndEvent_0zeuu2q">
       <bpmn:documentation>Asintomatico</bpmn:documentation>
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true==false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pazienteSintomatico==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0wwbnj2" sourceRef="ExclusiveGateway_0l3jy05" targetRef="UserTask_0onicqi" />
+    <bpmn:sequenceFlow id="SequenceFlow_0wwbnj2" sourceRef="ExclusiveGateway_0l3jy05" targetRef="UserTask_0onicqi">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pazienteSintomatico==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_177jhmz" sourceRef="UserTask_0onicqi" targetRef="UserTask_0sxtuf7" />
     <bpmn:sequenceFlow id="SequenceFlow_1klny7s" sourceRef="UserTask_0sxtuf7" targetRef="UserTask_1321em6" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ufofh6" name="FEV1/FVC&#60;70% ?">
@@ -39,10 +41,10 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_12y00p0" sourceRef="UserTask_1321em6" targetRef="ExclusiveGateway_0ufofh6" />
     <bpmn:sequenceFlow id="SequenceFlow_0c5eowf" sourceRef="ExclusiveGateway_0ufofh6" targetRef="UserTask_0rbs8g3">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true==true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${fev1/fvc<0.7}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_096d9fz" sourceRef="ExclusiveGateway_0ufofh6" targetRef="UserTask_02r3n1m">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true==false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${fev1/fvc >= 0.7}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1iby5xj" sourceRef="UserTask_02r3n1m" targetRef="UserTask_0ikipy6" />
     <bpmn:endEvent id="EndEvent_1fh00aa">
@@ -67,7 +69,7 @@
       <bpmn:incoming>SequenceFlow_0c5eowf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0rn3rpl</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="UserTask_1321em6" name="Refertazione">
+    <bpmn:userTask id="UserTask_1321em6" name="Refertazione" camunda:formKey="embedded:app:forms/refertazione-spirometria.html">
       <bpmn:incoming>SequenceFlow_1klny7s</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_12y00p0</bpmn:outgoing>
     </bpmn:userTask>
