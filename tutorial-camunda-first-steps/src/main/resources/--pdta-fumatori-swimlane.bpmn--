@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="Collaboration_019q39s">
+    <bpmn:participant id="Participant_1eaor5t" processRef="Process_1" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:laneSet>
+      <bpmn:lane id="Lane_0z27r0e" name="Paziente" />
+      <bpmn:lane id="Lane_1pb4lgh" name="Personale Ospedaliero" />
+    </bpmn:laneSet>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_019q39s">
+      <bpmndi:BPMNShape id="Participant_1eaor5t_di" bpmnElement="Participant_1eaor5t">
+        <dc:Bounds x="208" y="32" width="849" height="486" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0z27r0e_di" bpmnElement="Lane_0z27r0e">
+        <dc:Bounds x="238" y="32" width="819" height="237" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1pb4lgh_di" bpmnElement="Lane_1pb4lgh">
+        <dc:Bounds x="238" y="269" width="819" height="249" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

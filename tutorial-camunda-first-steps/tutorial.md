@@ -16,10 +16,13 @@ It is possible to run an instance of Camunda...
 	docker run -d --name camunda -p 8080:8080 \
            -v /workspace/repos/nht/tutorial-camunda/tutorial-camunda-first-steps/target/tutorial-camunda-first-steps-0.0.1-SNAPSHOT.war:/camunda/webapps/tutorial-camunda-first-steps.war \
            camunda/camunda-bpm-platform:tomcat-7.4.0
+
            
-	docker run -d -p 8080:8080 \
-           -v /workspace/repos/nht/tutorial-camunda/tutorial-camunda-first-steps/target/tutorial-camunda-first-steps-0.0.1-SNAPSHOT.war:/camunda/webapps/tutorial-camunda-first-steps.war \
-           camunda/camunda-bpm-platform:tomcat-7.4.0           
+	mvn clean package war:war
+	
+	docker run --name camunda -d -p 8080:8080 -v /workspace/repos/nht/tutorial-camunda-first-steps/target/tutorial-camunda-first-steps-0.0.1-SNAPSHOT.war:/camunda/webapps/tutorial-camunda-first-steps.war camunda/camunda-bpm-platform:tomcat-7.4.0
+	
+	http://localhost:8080/camunda/app	           
 	
 ...this should give something like...
 
