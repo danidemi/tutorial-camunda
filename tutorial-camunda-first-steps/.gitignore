@@ -1,3 +1,5 @@
 /.classpath
 /.project
 /tutorial-camunda-first-steps.iml
+*.log
+
