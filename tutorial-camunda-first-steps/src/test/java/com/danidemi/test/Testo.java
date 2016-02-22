@@ -5,6 +5,7 @@ import org.camunda.bpm.engine.history.HistoricVariableInstance;
 import org.camunda.bpm.engine.repository.Deployment;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.runtime.ProcessInstanceQuery;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,30 @@ public class Testo {
     Logger log = LoggerFactory.getLogger(Testo.class);
 
     @Test
+    public void shouldStartATimer() throws InterruptedException {
+
+        ProcessEngine processEngine = buildInMemoryEngine();
+
+        deployResource(processEngine, "spike-timeout.bpmn");
+
+        ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceById(
+                processEngine.getRepositoryService()
+                        .createProcessDefinitionQuery()
+                        .singleResult().getId()
+        );
+
+        ProcessInstanceQuery processInstanceQuery = processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstance.getId());
+        ProcessInstance processInstance1;
+        do {
+            Thread.sleep(1000);
+            processInstance1 = processInstanceQuery.singleResult();
+        }while(processInstance1!=null);
+
+
+
+    }
+
+    @Test
     public void shouldExecuteJavaTask() {
 
         // given
@@ -39,11 +64,7 @@ public class Testo {
         HistoryService historyService = processEngine.getHistoryService();
 
         // let's deploy
-        Deployment deployment = repositoryService
-                .createDeployment()
-                .name(resource.substring(1, resource.length()-".bpmn".length()) + "-deploy")
-                .addClasspathResource(resource)
-                .deploy();
+        deployResource(processEngine, resource);
 
         // let's start the service
         ProcessDefinition def = repositoryService
@@ -95,6 +116,14 @@ public class Testo {
 //        assertThat( d1, equalTo(12.2) );
 //        assertThat( d2, equalTo(12.2) );
 
+    }
+
+    private void deployResource(ProcessEngine processEngine, String resource) {
+        Deployment deployment = processEngine.getRepositoryService()
+                .createDeployment()
+                .name(resource.substring(1, resource.length()-".bpmn".length()) + "-deploy")
+                .addClasspathResource(resource)
+                .deploy();
     }
 
     @Test
@@ -186,6 +215,7 @@ public class Testo {
     private ProcessEngine buildInMemoryEngine() {
         return ProcessEngineConfiguration
                 .createStandaloneInMemProcessEngineConfiguration()
+                .setJobExecutorActivate(true)
                 .buildProcessEngine();
     }
 
